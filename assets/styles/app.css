@@ -1,23 +1,38 @@
 body {
-    background-color: white;
+    background-color: #f4f4f4;
 }
 
-.navbar-container{
-    background-color: #C9FBAC;
+.navbar-container {
+    background-color: #5C946E;
     border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-
-  
-
-.navbar-nav {
-    margin: 0 auto;
-    table-layout: fixed;
+.navbar {
+    padding: 0 20px;
 }
-.navbar-container, body {
-    padding-top: 10px; 
-    padding-right: 10px; 
-    padding-left: 10px; 
-    }
 
+.navbar-brand {
+    color: #fff;
+}
+
+.navbar-nav .nav-link {
+    color: #fff;
+    margin-right: 15px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #C9FBAC;
+}
+
+.btn-success {
+    background-color: #A7D49B;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #8CBF88;
+}
+
+/* Import Bootstrap CSS */
 @import "~bootstrap/scss/bootstrap";
