@@ -1,0 +1,5 @@
+body {
+    background-color: rgb(222, 243, 252);
+}
+
+@import "~bootstrap/scss/bootstrap";
