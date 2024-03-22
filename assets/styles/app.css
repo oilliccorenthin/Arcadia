@@ -1,5 +1,23 @@
 body {
-    background-color: rgb(222, 243, 252);
+    background-color: white;
 }
+
+.navbar-container{
+    background-color: #C9FBAC;
+    border-radius: 15px;
+}
+
+
+  
+
+.navbar-nav {
+    margin: 0 auto;
+    table-layout: fixed;
+}
+.navbar-container, body {
+    padding-top: 10px; 
+    padding-right: 10px; 
+    padding-left: 10px; 
+    }
 
 @import "~bootstrap/scss/bootstrap";
