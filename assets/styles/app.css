@@ -21,9 +21,16 @@ body {
     margin-right: 15px;
 }
 
-.navbar-nav .nav-link:hover {
+.navbar-nav .nav-link:hover,
+.navbar-nav .navbar-brand:hover {
     color: #C9FBAC;
 }
+
+
+.nav-link.active {
+    color: rgb(16, 74, 26) !important; 
+}
+
 
 .btn-success {
     background-color: #A7D49B;

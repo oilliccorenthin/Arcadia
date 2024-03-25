@@ -20,7 +20,7 @@
     <body>
     <div class="navbar-container">
         <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" href="#">Arcadia Zoo</a>
+            <a class="navbar-brand" href="{{ path('app_home')}}">Arcadia Zoo</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupported" aria-controls="navbarSupported" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -29,13 +29,13 @@
                 <ul class="navbar-nav mr-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a>
+                        <a class="nav-link {% if current_menu is defined and current_menu == 'services' %}active{% endif %}" href="{{ path('app_services')}}">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Habitat</a>
+                        <a class="nav-link {% if current_menu is defined and current_menu == 'habitats' %}active{% endif %}" href="{{ path('app_habitats')}}">Habitats</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link {% if current_menu is defined and current_menu == 'contact' %}active{% endif %}" href="{{ path('app_contact')}}">Contact</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0 ml-auto">
