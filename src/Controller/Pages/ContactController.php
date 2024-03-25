@@ -11,7 +11,7 @@ class ContactController extends AbstractController
     #[Route('/contact', name: 'app_contact')]
     public function index(): Response
     {
-        return $this->render('home/habitats.html.twig', [
+        return $this->render('home/contact.html.twig', [
             'controller_name' => 'ContactController',
             'current_menu' => 'contact'
         ]);

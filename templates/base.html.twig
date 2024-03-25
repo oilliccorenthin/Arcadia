@@ -38,11 +38,12 @@
                         <a class="nav-link {% if current_menu is defined and current_menu == 'contact' %}active{% endif %}" href="{{ path('app_contact')}}">Contact</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0 ml-auto">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">Login</button>
-                </form>
+                <div class="btn-log" style="float: right;">
+                    <form class="form-inline my-2 my-lg-0 ml-auto">
+                        <a class="btn btn-outline-success my-2 my-sm-0" href="{{ path('app_login') }}">Connexion</a>
+                    </form>
+                </div>
 
-                
             </div>
         </nav>
     </div>
