@@ -18,12 +18,12 @@ class Role
     #[ORM\Column(length: 50)]
     private ?string $label = null;
 
-    #[ORM\ManyToMany(targetEntity: user::class, inversedBy: 'rolesAdded')]
-    private Collection $user;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "roles")]
+    private Collection $users;
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,26 +44,30 @@ class Role
     }
 
     /**
-     * @return Collection<int, user>
+     * @return User[]
      */
-    public function getUser(): Collection
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
-    public function addUser(user $user): static
+    public function addUser(User $user): static
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addRole($this);
         }
-
+    
         return $this;
     }
-
-    public function removeUser(user $user): static
+    
+    public function removeUser(User $user): static
     {
-        $this->user->removeElement($user);
-
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeRole($this);
+        }
+    
         return $this;
     }
 }

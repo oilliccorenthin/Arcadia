@@ -21,12 +21,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
-
-
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'user')]
+    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: "users")]
     private Collection $roles;
 
     public function __construct()
@@ -61,9 +59,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
-
-
-
     /**
      * @see UserInterface
      */
@@ -85,28 +80,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Role>
-     */
-    public function getRoles(): Collection
+    public function getRoles(): array
     {
-        return $this->roles;
+    $rolesArray = $this->roles->map(function ($role) {
+        return $role->getLabel();
+    })->toArray();
+    
+    $rolesArray[] = 'ROLE_USER';
+    
+    return array_unique($rolesArray);
     }
 
-    public function addRoles(Role $roles): static
+    public function addRole(Role $role): static
     {
-        if (!$this->roles->contains($roles)) {
-            $this->roles->add($roles);
-            $roles->addUser($this);
+        if (!$this->roles->contains($role)) {
+            $this->roles->add($role);
+            $role->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeRolesAdded(Role $roles): static
+    public function removeRole(Role $role): static
     {
-        if ($this->roles->removeElement($roles)) {
-            $roles->removeUser($this);
+        if ($this->roles->contains($role)) {
+            $this->roles->removeElement($role);
+            $role->removeUser($this);
         }
 
         return $this;
