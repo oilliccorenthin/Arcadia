@@ -1,0 +1,13 @@
+<p>
+    Une nouvelle demande de contact à été effectuée sur le site
+</p>
+
+<ul>
+    <li><strong>Nom</strong> : {{ data.name }}</li>
+    <li><strong>Email</strong> : {{ data.email }}</li>
+</ul>
+
+<p>
+    <strong>Message</strong> : <br>
+    {{ data.message | nl2br}}
+</p>
