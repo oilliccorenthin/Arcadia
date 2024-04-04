@@ -9,6 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/user', name: 'app_admin_user')]
@@ -25,10 +26,16 @@ class UserController extends AbstractController
      */
     private $doctrine;
 
-    public function __construct(UserRepository $repository, ManagerRegistry $doctrine)
+    /**
+     * @var UserPasswordHasherInterface
+     */
+    private $passwordEncoder;
+
+    public function __construct(UserRepository $repository, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordEncoder)
     {
         $this->repository = $repository;
         $this->doctrine = $doctrine;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     #[Route('/', name: '_index', methods: ['GET'])]
@@ -41,17 +48,23 @@ class UserController extends AbstractController
 
     
     #[Route('/new', name: '_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, UserRepository $userRepository): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entitymanager = $this->doctrine->getManager();
-            foreach ($user->getRoleObjects() as $role) {
-                $entitymanager->persist($role);
+            $plainPassword = $form->get('password')->getData();
+            $selectedRoles = $form->get('roleObjects')->getData();
+
+            foreach ($selectedRoles as $role) {
+                $userRepository->addUserRole($user, $role);
             }
+            $hashedPassword = $this->passwordEncoder->hashPassword($user, $plainPassword);
+            $user->setPassword($hashedPassword);
+
+            $entitymanager = $this->doctrine->getManager();
             $entitymanager->persist($user);
             $entitymanager->flush();
             $this->addFlash('success', 'Créé avec succès');
@@ -76,12 +89,27 @@ class UserController extends AbstractController
 
 
     #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
+        $oldPassword = $user->getPassword();
+        $user->setPassword('');
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $plainPassword = $form->get('password')->getData();
+            if ($plainPassword) {
+                $hashedPassword = $this->passwordEncoder->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
+            } else {
+                $user->setPassword($oldPassword);
+            }
+
+            $selectedRoles = $form->get('roleObjects')->getData();
+            foreach ($selectedRoles as $role) {
+                $userRepository->addUserRole($user, $role);
+            }
             $this->doctrine->getManager()->flush();
             $this->addFlash('success', 'Modifié avec succès');
 
