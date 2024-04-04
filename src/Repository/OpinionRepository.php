@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Avis;
+use App\Entity\Opinion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Avis>
+ * @extends ServiceEntityRepository<Opinion>
  *
- * @method Avis|null find($id, $lockMode = null, $lockVersion = null)
- * @method Avis|null findOneBy(array $criteria, array $orderBy = null)
- * @method Avis[]    findAll()
- * @method Avis[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Opinion|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Opinion|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Opinion[]    findAll()
+ * @method Opinion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AvisRepository extends ServiceEntityRepository
+class OpinionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Avis::class);
+        parent::__construct($registry, Opinion::class);
     }
 
     //    /**
-    //     * @return Avis[] Returns an array of Avis objects
+    //     * @return Opinion[] Returns an array of Opinion objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class AvisRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Avis
+    //    public function findOneBySomeField($value): ?Opinion
     //    {
     //        return $this->createQueryBuilder('a')
     //            ->andWhere('a.exampleField = :val')

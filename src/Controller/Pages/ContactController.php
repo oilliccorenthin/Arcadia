@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Pages;
 
 use App\DTO\ContactDTO;
 use App\Form\ContactType;
@@ -34,7 +34,7 @@ class ContactController extends AbstractController
             $this->redirectToRoute('app_contact');
         }
 
-        return $this->render('contact/contact.html.twig', [
+        return $this->render('home/contact.html.twig', [
             'form' => $form,
             'current_menu' => 'contact'
         ]);

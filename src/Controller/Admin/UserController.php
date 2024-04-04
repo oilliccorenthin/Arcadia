@@ -6,9 +6,11 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -48,8 +50,9 @@ class UserController extends AbstractController
 
     
     #[Route('/new', name: '_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(Request $request, UserRepository $userRepository, MailerInterface $mailer): Response
     {
+        //User and form creation
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -61,13 +64,26 @@ class UserController extends AbstractController
             foreach ($selectedRoles as $role) {
                 $userRepository->addUserRole($user, $role);
             }
+
+            // Hashing password
             $hashedPassword = $this->passwordEncoder->hashPassword($user, $plainPassword);
             $user->setPassword($hashedPassword);
 
+            // Saving user in BDD
             $entitymanager = $this->doctrine->getManager();
             $entitymanager->persist($user);
             $entitymanager->flush();
-            $this->addFlash('success', 'Créé avec succès');
+            $this->addFlash('success', 'Créé avec succès !');
+
+            // Sending email to the new User
+            $mail = (new TemplatedEmail())
+                ->to($user->getEmail())
+                ->from('gestion@zoo.arcadia.fr')
+                ->subject('Création de compte')
+                ->htmlTemplate('emails/new_user.html.twig')
+                ->context(['user' => $user]);
+            $mailer->send($mail);
+            $this->addFlash('success', 'Votre message a bien été envoyé');
 
             return $this->redirectToRoute('app_admin_user_index');
         }
