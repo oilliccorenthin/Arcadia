@@ -2,9 +2,22 @@
 
 {% block body %}
 
-<h1> Page d'administration </h1>
-<p>Affichage des cruds</p>
-
+{% if user %}
+    <p>Bonjour, {{ user.email }}</p>
+    <h1> Page d'administration </h1>
+    <p>Affichage des cruds</p>
+        {% if 'ROLE_ADMIN' in roles %}
+            <a href="{{ path('app_admin_user_index') }}">Gérer les utilisateurs</a>
+        {% endif %}
+        {% if 'ROLE_EMPLOYEE' in roles %}
+            <p>Vous êtes admin</p>
+        {% endif %}
+        {% if 'ROLE_VETERINARY' in roles %}
+            <p>Vous êtes admin</p>
+        {% endif %}
+{% else %}
+    <p>Bonjour, visiteur</p>
+{% endif %}
 
 
 {% endblock %}

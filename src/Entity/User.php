@@ -24,12 +24,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: "users")]
-    private Collection $roles;
+    private array $roles;
+
+
+    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: "users", cascade: ["persist"])]
+    private Collection $roleObjects;
+
 
     public function __construct()
     {
-        $this->roles = new ArrayCollection();
+        $this->roleObjects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,29 +86,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-    $rolesArray = $this->roles->map(function ($role) {
-        return $role->getLabel();
-    })->toArray();
+        if ($this->roleObjects === null || !($this->roleObjects instanceof Collection)) {
+            return ['ROLE_USER'];
+        }
     
-    $rolesArray[] = 'ROLE_USER';
-    
-    return array_unique($rolesArray);
+        $rolesArray = $this->roleObjects->map(function ($role) {
+            return $role->getLabel();
+        })->toArray();
+        
+        $rolesArray[] = 'ROLE_USER';
+        
+        return array_unique($rolesArray);
     }
 
-    public function addRole(Role $role): static
+    public function getRoleObjects(): Collection
     {
-        if (!$this->roles->contains($role)) {
-            $this->roles->add($role);
+        return $this->roleObjects;
+    }
+
+    public function setRoleObjects(Collection $roles): self
+    {
+        $this->roleObjects = $roles;
+
+        // Convert the PersistentCollection to an array
+        $this->roles = $roles->toArray();
+
+        return $this;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roleObjects->contains($role)) {
+            $this->roleObjects->add($role);
             $role->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeRole(Role $role): static
+    public function removeRole(Role $role): self
     {
-        if ($this->roles->contains($role)) {
-            $this->roles->removeElement($role);
+        if ($this->roleObjects->contains($role)) {
+            $this->roleObjects->removeElement($role);
             $role->removeUser($this);
         }
 

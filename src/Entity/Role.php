@@ -18,7 +18,7 @@ class Role
     #[ORM\Column(length: 50)]
     private ?string $label = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "roles")]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: "roleObjects")]
     private Collection $users;
 
     public function __construct()
@@ -70,4 +70,9 @@ class Role
     
         return $this;
     }
+
+    public function __toString()
+{
+    return $this->getLabel();
+}
 }

@@ -21,6 +21,15 @@ class RoleRepository extends ServiceEntityRepository
         parent::__construct($registry, Role::class);
     }
 
+    public function findOneByLabel($label): ?Role
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.label = :label')
+        ->setParameter('label', $label)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
     //    /**
     //     * @return Role[] Returns an array of Role objects
     //     */
