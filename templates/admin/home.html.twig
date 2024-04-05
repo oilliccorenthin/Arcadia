@@ -7,13 +7,15 @@
     <h1> Page d'administration </h1>
     <p>Affichage des cruds</p>
         {% if 'ROLE_ADMIN' in roles %}
-            <a href="{{ path('app_admin_user_index') }}">Gérer les utilisateurs</a>
+            <a href="{{ path('app_admin_user_index') }}">Gérer les utilisateurs</a><br>
+            <a href="{{ path('app_opinion_index') }}">Gérer les avis</a>
         {% endif %}
         {% if 'ROLE_EMPLOYEE' in roles %}
-            <p>Vous êtes admin</p>
+            <a href="{{ path('app_opinion_index') }}">Gérer les avis</a>     
+            <p>Vous êtes employé</p>
         {% endif %}
         {% if 'ROLE_VETERINARY' in roles %}
-            <p>Vous êtes admin</p>
+            <p>Vous êtes veterinaire</p>
         {% endif %}
 {% else %}
     <p>Bonjour, visiteur</p>

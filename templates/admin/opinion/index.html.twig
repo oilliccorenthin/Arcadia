@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block title 'Gérer les avis postés' %}
+{% block body %}
+
+<div class="container mt-4">
+    <h1>Gérer les avis postés</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Avis</th>
+                <th>Utilisateur</th>
+                <th>Visible</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for opinion in opinions %}
+                <tr>
+                    <td>{{ opinion.commentaire }}</td>
+                    <td>{{ opinion.pseudo }}</td>
+                    <td>
+                        {% if opinion.isVisible %}
+                            &#x2714; <!-- Checkmark Emoji -->
+                        {% else %}
+                            &#x274C; <!-- Cross Emoji -->
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_opinion_edit', {'id': opinion.id}) }}" class="btn btn-primary">Editer</a>
+                        <form method="post" action="{{ path('app_opinion_delete', {'id': opinion.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ opinion.id) }}">
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+{% endblock %}

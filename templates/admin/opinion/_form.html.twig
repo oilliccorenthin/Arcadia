@@ -1,0 +1,35 @@
+<div class="container mt-4">
+    {{ form_start(form, {'attr': {'class': 'contact-form'}}) }}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="form-label"><strong>Pseudo</strong></label>
+                <p class="form-control-static">{{ opinion.pseudo }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="form-label"><strong>Commentaire</strong></label>
+                <p class="form-control-static">{{ opinion.commentaire }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="form-check">
+                    {{ form_widget(form.is_visible, {'attr': {'class': 'form-check-input'}}) }}
+                    {{ form_label(form.is_visible, 'Visible', {'label_attr': {'class': 'form-check-label'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{{ button|default('Enregistrer') }}</button>
+            </div>
+        </div>
+    </div>
+
+    
+    {{ form_end(form) }}
+</div>

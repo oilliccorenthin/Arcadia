@@ -21,6 +21,14 @@ class OpinionRepository extends ServiceEntityRepository
         parent::__construct($registry, Opinion::class);
     }
 
+    public function findVisibleOpinion(): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.is_visible = :val')
+            ->setParameter('val', 1)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Opinion[] Returns an array of Opinion objects
     //     */

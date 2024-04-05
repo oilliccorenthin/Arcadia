@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title "Editer l'avis"%}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Editer la visibilité d'un avis</h1>
+    {{ include('/admin/opinion/_form.html.twig', {form: form, button:'Editer'})}}
+</div>
+{% endblock %}

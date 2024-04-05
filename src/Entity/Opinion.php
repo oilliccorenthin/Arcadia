@@ -51,6 +51,15 @@ class Opinion
         return $this;
     }
 
+    public function getShortCommentaire(): ?string
+    {
+        if ($this->commentaire === null) {
+            return null;
+        }
+
+        return substr($this->commentaire, 0, 15);
+    }
+
     public function isIsVisible(): ?bool
     {
         return $this->isVisible;
