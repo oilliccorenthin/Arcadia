@@ -1,0 +1,10 @@
+{% extends 'base.html.twig'%}
+
+{% block title 'Creer un service'%}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Créer un nouveau service</h1>
+    {{ include('/admin/service/_form.html.twig', {form: form, button:'Ajouter'})}}
+</div>
+{% endblock %}

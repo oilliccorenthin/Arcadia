@@ -53,19 +53,22 @@ class OpinionController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/opinion', name: 'app_opinion_index', methods: ['GET'])]
+    #[Route('/admin/opinion', name: 'app_admin_opinion_index', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('admin/opinion/index.html.twig', [
             'opinions' => $this->repository->findAll(),
+            'current_menu' => 'admin',
         ]); 
     }
 
-    #[Route('/admin/opinion/{id}/edit', name: 'app_opinion_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/opinion/{id}/edit', name: 'app_admin_opinion_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Opinion $opinion): Response
     {
         $form = $this->createFormBuilder($opinion)
-        ->add('is_visible', CheckboxType::class)
+        ->add('is_visible', CheckboxType::class, [
+            'required' => false,
+        ])
         ->getForm();
 
         $form->handleRequest($request);     
@@ -79,11 +82,12 @@ class OpinionController extends AbstractController
 
         return $this->render('admin/opinion/edit.html.twig', [
             'opinion' => $opinion,
+            'current_menu' => 'admin',
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/admin/opinion/{id}', name: 'app_opinion_delete')]
+    #[Route('/admin/opinion/{id}', name: 'app_admin_opinion_delete')]
     public function delete(Request $request, Opinion $opinion): Response
     {
         if (!$opinion) {
@@ -92,9 +96,9 @@ class OpinionController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$opinion->getId(), $request->request->get('_token'))) {
             $this->doctrine->getManager()->remove($opinion);
             $this->doctrine->getManager()->flush();
-            $this->addFlash('success', 'Modifié avec succès');
+            $this->addFlash('success', 'Supprimé avec succès');
         }
 
-        return $this->redirectToRoute('app_admin_opinion_index');
+        return $this->redirectToRoute('app_opinion_index');
     }
 }

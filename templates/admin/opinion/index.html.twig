@@ -31,8 +31,8 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{{ path('app_opinion_edit', {'id': opinion.id}) }}" class="btn btn-primary">Editer</a>
-                        <form method="post" action="{{ path('app_opinion_delete', {'id': opinion.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">
+                        <a href="{{ path('app_admin_opinion_edit', {'id': opinion.id}) }}" class="btn btn-primary">Editer</a>
+                        <form method="post" action="{{ path('app_admin_opinion_delete', {'id': opinion.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ opinion.id) }}">
                             <button class="btn btn-danger">Supprimer</button>
