@@ -77,7 +77,7 @@ class OpinionController extends AbstractController
             $this->doctrine->getManager()->flush();
             $this->addFlash('success', 'Modifié avec succès !');
 
-            return $this->redirectToRoute('app_opinion_index');
+            return $this->redirectToRoute('app_admin_opinion_index');
         }
 
         return $this->render('admin/opinion/edit.html.twig', [

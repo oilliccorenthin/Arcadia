@@ -30,6 +30,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: "users", cascade: ["persist"])]
     private Collection $roleObjects;
 
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?RapportVeterinaire $veterinaryReport = null;
+
 
     public function __construct()
     {
@@ -130,6 +133,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->roleObjects->removeElement($role);
             $role->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getVeterinaryReport(): ?RapportVeterinaire
+    {
+        return $this->veterinaryReport;
+    }
+
+    public function setVeterinaryReport(?RapportVeterinaire $veterinaryReport): static
+    {
+        $this->veterinaryReport = $veterinaryReport;
 
         return $this;
     }
