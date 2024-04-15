@@ -1,3 +1,4 @@
+{# home admin #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -10,6 +11,7 @@
             <a href="{{ path('app_admin_user_index') }}">Gérer les utilisateurs</a><br>
             <a href="{{ path('app_admin_opinion_index') }}">Gérer les avis</a><br>
             <a href="{{ path('app_admin_service_index') }}">Gérer les services</a><br>
+            <a href="{{ path('app_admin_habitat_index') }}">Gérer les habitats</a><br>
         {% endif %}
         {% if 'ROLE_EMPLOYEE' in roles %}
             <a href="{{ path('app_admin_opinion_index') }}">Gérer les avis</a>     

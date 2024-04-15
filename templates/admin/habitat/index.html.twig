@@ -1,9 +1,10 @@
-{# index service #}
+{# index habitat #}
 {% extends 'base.html.twig' %}
-{% block title 'Gérer les services proposés' %}
+{% block title 'Gérer les habitats' %}
 {% block body %}
+
 <div class="container mt-4">
-    <h1>Gérer les services</h1>
+    <h1>Gérer les habitats</h1>
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
@@ -18,15 +19,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for service in services %}
+            {% for habitat in habitats %}
                 <tr>
-                    <td>{{ service.name }}</td>
-                    <td>{{ service.description }}</td>
+                    <td>{{ habitat.name }}</td>
+                    <td>{{ habitat.description }}</td>
                     <td>
-                        <a href="{{ path('app_admin_service_edit', {'id': service.id}) }}" class="btn btn-primary">Editer</a>
-                        <form method="post" action="{{ path('app_admin_service_delete', {'id': service.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">
+                        <a href="{{ path('app_admin_habitat_edit', {'id': habitat.id}) }}" class="btn btn-primary">Editer</a>
+                        <form method="post" action="{{ path('app_admin_habitat_delete', {'id': habitat.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">
                             <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ service.id) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ habitat.id) }}">
                             <button class="btn btn-danger">Supprimer</button>
                         </form>
                     </td>
@@ -35,7 +36,6 @@
         </tbody>
     </table>
     <div class="text-right">
-        <a href="{{ path('app_admin_service_new')}}" class="btn btn-success"> Créer un nouveau service</a>
+        <a href="{{ path('app_admin_habitat_new')}}" class="btn btn-success"> Créer un nouvel habitat</a>
     </div>
-</div>
 {% endblock %}

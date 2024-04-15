@@ -82,10 +82,10 @@ class ServiceController extends AbstractController
             $this->doctrine->getManager()->flush();
             $this->addFlash('success', 'Modifié avec succès !');
 
-            return $this->redirectToRoute('app_service_index');
+            return $this->redirectToRoute('app_admin_service_index');
         }
 
-        return $this->render('admin//edit.html.twig', [
+        return $this->render('admin/service/edit.html.twig', [
             'service' => $service,
             'current_menu' => 'admin',
             'form' => $form->createView(),

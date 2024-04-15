@@ -1,0 +1,11 @@
+{# éditer habitat #}
+{% extends 'base.html.twig' %}
+
+{% block title "Editer l'habitat"%}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Editer un habitat</h1>
+    {{ include('/admin/habitat/_form.html.twig', {form: form, button:'Editer'})}}
+</div>
+{% endblock %}
