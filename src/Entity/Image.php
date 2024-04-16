@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
+#[Vich\Uploadable]
 class Image
 {
     #[ORM\Id]
@@ -14,8 +17,15 @@ class Image
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    private $image_data;
+    #[Vich\UploadableField(mapping: 'products', fileNameProperty: "imageName")]
+    #[Assert\File(
+        maxSize: "5M",
+        mimeTypes: ["image/jpeg", "image/png"]
+    )]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(type: "string")]
+    private ?string $imageName = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Habitat $habitat = null;
@@ -25,16 +35,24 @@ class Image
         return $this->id;
     }
 
-    public function getImageData()
+    public function setImageFile(?File $imageFile = null): void
     {
-        return $this->image_data;
+        $this->imageFile = $imageFile;
     }
 
-    public function setImageData($image_data): static
+    public function getImageFile(): ?File
     {
-        $this->image_data = $image_data;
+        return $this->imageFile;
+    }
 
-        return $this;
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 
     public function getHabitat(): ?Habitat

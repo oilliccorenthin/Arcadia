@@ -3,10 +3,12 @@
 namespace App\Controller\Pages;
 
 use App\Entity\Habitat;
-use App\Form\HabitatType;
+use App\Entity\Image;
 use App\Repository\HabitatRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Form\HabitatType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,17 +51,31 @@ class HabitatController extends AbstractController
         ]); 
     }
 
+
+
     #[Route('/admin/habitat/new', name: 'app_admin_habitat_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $habitat = new Habitat();
         $form = $this->createForm(HabitatType::class, $habitat);
         $form->handleRequest($request);
+        $debugData = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->doctrine->getManager();
+
+            // Gérer les images téléchargées
+            foreach ($habitat->getImages() as $image) {
+                $newImage = new Image();
+                $newImage->setHabitat($habitat);
+                $newImage->setImageFile($image->getImageFile());
+                $entityManager->persist($newImage);
+                $this->addFlash('success', 'Image téléchargée avec succès !');
+            }
+
             $entityManager->persist($habitat);
             $entityManager->flush();
+
             $this->addFlash('success', 'Envoyé avec succès !');
 
             return $this->redirectToRoute('app_admin_habitat_index');
@@ -69,6 +85,7 @@ class HabitatController extends AbstractController
             'habitat' => $habitat,
             'form' => $form->createView(),
             'current_menu' => 'admin',
+            'debugData' => $debugData,
         ]);
     }
 
@@ -80,6 +97,17 @@ class HabitatController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->doctrine->getManager();
+
+            // Gérer les images téléchargées
+            foreach ($habitat->getImages() as $image) {
+                /** @var UploadedFile $imageFile */
+                $imageFile = $image->getImageFile();
+                if ($imageFile) {
+                    $image->setImageName($imageFile->getClientOriginalName());
+                }
+                $entityManager->persist($image);
+            }
+
             $entityManager->flush();
             $this->addFlash('success', 'Modifié avec succès !');
 

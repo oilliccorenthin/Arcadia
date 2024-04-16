@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\RapportVeterinaireRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: RapportVeterinaireRepository::class)]
+#[Vich\Uploadable]
 class RapportVeterinaire
 {
     #[ORM\Id]

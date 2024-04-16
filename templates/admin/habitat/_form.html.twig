@@ -1,17 +1,9 @@
-{# formulaire habitat #}
-<div class="container mt-4">
-    <form class="form" method="POST">
-        <div class="form-group">
-            <label for="name" class="form-label"><strong>Nom</strong></label>
-            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
-        </div>
-        <div class="form-group">
-            <label for="description" class="form-label"><strong>Description</strong></label>
-            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Description'}}) }}
-        </div>
-        <div class="form-group">
-            {{ form_rest(form) }}
-        </div>
-        <button type="submit" class="btn btn-primary">{{ button|default('Enregistrer') }}</button>
-    </form>
-</div>
+{# _form.html.twig #}
+
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.images) }}
+    
+    <button type="submit" class="btn btn-primary">{{ button }}</button>
+{{ form_end(form) }}
