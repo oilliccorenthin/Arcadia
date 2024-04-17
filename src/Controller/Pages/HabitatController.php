@@ -63,16 +63,6 @@ class HabitatController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->doctrine->getManager();
-
-            // Gérer les images téléchargées
-            foreach ($habitat->getImages() as $image) {
-                $newImage = new Image();
-                $newImage->setHabitat($habitat);
-                $newImage->setImageFile($image->getImageFile());
-                $entityManager->persist($newImage);
-                $this->addFlash('success', 'Image téléchargée avec succès !');
-            }
-
             $entityManager->persist($habitat);
             $entityManager->flush();
 

@@ -1,7 +1,7 @@
 vich_uploader:
     db_driver: orm
     metadata:
-        type: attribute # Spécifie l'utilisation des attributs pour la configuration de VichUploaderBundle
+        type: attribute
 
     mappings:
         products:

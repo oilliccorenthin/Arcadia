@@ -1,9 +1,42 @@
 {# _form.html.twig #}
+<form method="post" enctype="multipart/form-data" class="mt-4">
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_row(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Name'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Description'}}) }}
+        </div>
 
-{{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.description) }}
-    {{ form_row(form.images) }}
-    
-    <button type="submit" class="btn btn-primary">{{ button }}</button>
-{{ form_end(form) }}
+        <h3>Images</h3>
+        <ul id="image-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+            {% for image in form.images %}
+                <li>
+                    {{ form_row(image.imageFile, {'label': 'Ajouter une image', 'attr': {'class': 'form-control'}}) }}
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="button" id="add-image" class="btn btn-success mb-3">Ajouter une image</button><br>
+
+        <button type="submit" class="btn btn-primary">{{ button }}</button>
+    {{ form_end(form) }}
+</form>
+<script>
+    document.getElementById('add-image').addEventListener('click', function() {
+        var list = document.getElementById('image-fields-list');
+
+        var prototype = list.getAttribute('data-prototype');
+
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on the current collection's length
+        var newForm = prototype.replace(/__name__/g, list.children.length);
+
+        // Create a new <div> element with Bootstrap classes
+        var newFormDiv = document.createElement('div');
+        newFormDiv.className = 'mb-3'; // Add margin-bottom
+        newFormDiv.innerHTML = newForm;
+
+        // Display the form in the page in a <div>, before the "Add an image" button
+        list.appendChild(newFormDiv);
+    });
+</script>

@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: HabitatRepository::class)]
-#[Vich\Uploadable]
 class Habitat
 {
     #[ORM\Id]
@@ -29,7 +28,7 @@ class Habitat
     #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'habitat')]
     private Collection $animals;
 
-    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'habitat')]
+    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'habitat', cascade: ['persist', 'remove'])]
     private Collection $images;
 
     public function __construct()
