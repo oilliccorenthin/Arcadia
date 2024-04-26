@@ -15,11 +15,6 @@
             {{ message }}
         </div>
     {% endfor %}
-    {# Afficher les données de débogage #}
-    {% if app.flashes('debugData') is not empty %}
-        <pre>{{ dump(app.flashes('debugData')) }}</pre>
-    {% endif %}
-
     <table class="table table-striped">
         <thead>
             <tr>

@@ -21,6 +21,18 @@ class HabitatRepository extends ServiceEntityRepository
         parent::__construct($registry, Habitat::class);
     }
 
+    /**
+     * @return Habitat[] Returns an array of Habitat objects with images
+     */
+    public function findAllWithImages()
+    {
+        return $this->createQueryBuilder('h')
+            ->leftJoin('h.images', 'i')
+            ->addSelect('i')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Habitat[] Returns an array of Habitat objects
     //     */

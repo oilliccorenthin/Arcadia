@@ -1,0 +1,12 @@
+{# _form race #}
+{{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.label, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_errors(form.label, {'attr': {'class': 'invalid-feedback'}}) }}
+        {{ form_widget(form.label, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        <input type="submit" value="{{ button }}" class="btn btn-primary" />
+    </div>
+{{ form_end(form) }}

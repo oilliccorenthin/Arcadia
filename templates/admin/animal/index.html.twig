@@ -1,0 +1,41 @@
+{# index animal #}
+{% extends 'base.html.twig' %}
+{% block title 'Gérer les différents animaux' %}
+{% block body %}
+<div class="container mt-4">
+    <h1>Gérer les animaux</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Habitat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for animal in animals %}
+                <tr>
+                    <td>{{ animal.name }}</td>
+                    <td>{{ animal.habitat.name }}</td>
+                    <td>
+                        <a href="{{ path('app_admin_animal_edit', {'id': animal.id}) }}" class="btn btn-primary">Modifier</a>
+                        <form method="post" action="{{ path('app_admin_animal_delete', {'id': animal.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ animal.id) }}">
+                            <button class="btn btn-danger">Retirer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-right">
+        <a href="{{ path('app_admin_animal_new')}}" class="btn btn-success"> Ajouter un nouvel animal</a>
+    </div>
+</div>
+{% endblock %}

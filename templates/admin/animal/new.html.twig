@@ -1,0 +1,11 @@
+{# new animal #}
+{% extends 'base.html.twig'%}
+
+{% block title 'Ajouter un animal'%}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Ajouter un nouvel animal</h1>
+    {{ include('/admin/animal/_form.html.twig', {form: form, button:'Ajouter'})}}
+</div>
+{% endblock %}

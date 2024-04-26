@@ -1,0 +1,11 @@
+{# éditer race #}
+{% extends 'base.html.twig' %}
+
+{% block title "Gérer la race"%}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Gérer la race</h1>
+    {{ include('/admin/race/_form.html.twig', {form: form, button:'Modifier'})}}
+</div>
+{% endblock %}

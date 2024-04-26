@@ -7,6 +7,9 @@ use App\Entity\Image;
 use App\Repository\HabitatRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Form\HabitatType;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Imagine\Image\ImagineInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,9 +38,8 @@ class HabitatController extends AbstractController
     #[Route('/habitat', name: 'app_habitat')]
     public function show(): Response
     {
-        
         return $this->render('home/habitat.html.twig', [
-            'habitats' => $this->repository->findAll(),
+            'habitats' => $this->repository->findAllWithImages(),
             'current_menu' => 'habitat'
         ]);
     }
@@ -54,12 +56,11 @@ class HabitatController extends AbstractController
 
 
     #[Route('/admin/habitat/new', name: 'app_admin_habitat_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, ImagineInterface $imagine): Response
     {
         $habitat = new Habitat();
         $form = $this->createForm(HabitatType::class, $habitat);
         $form->handleRequest($request);
-        $debugData = [];
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->doctrine->getManager();
@@ -75,29 +76,16 @@ class HabitatController extends AbstractController
             'habitat' => $habitat,
             'form' => $form->createView(),
             'current_menu' => 'admin',
-            'debugData' => $debugData,
         ]);
     }
 
     #[Route('/admin/habitat/{id}/edit', name: 'app_admin_habitat_edit', methods: ['GET', 'POST'])]
-    public function edit(Habitat $habitat, Request $request): Response
+    public function edit(Habitat $habitat, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(HabitatType::class, $habitat);
+        $form = $this->createForm(HabitatType::class, $habitat, ['em' => $entityManager]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->doctrine->getManager();
-
-            // Gérer les images téléchargées
-            foreach ($habitat->getImages() as $image) {
-                /** @var UploadedFile $imageFile */
-                $imageFile = $image->getImageFile();
-                if ($imageFile) {
-                    $image->setImageName($imageFile->getClientOriginalName());
-                }
-                $entityManager->persist($image);
-            }
-
             $entityManager->flush();
             $this->addFlash('success', 'Modifié avec succès !');
 

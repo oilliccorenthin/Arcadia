@@ -1,0 +1,31 @@
+{# _form animal #}
+{{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_errors(form.name, {'attr': {'class': 'invalid-feedback'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.state, 'Etat physique', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_errors(form.state, {'attr': {'class': 'invalid-feedback'}}) }}
+        {{ form_widget(form.state, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.race, 'Race', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_errors(form.race, {'attr': {'class': 'invalid-feedback'}}) }}
+        {{ form_widget(form.race, {'attr': {'class': 'form-control'}}) }}
+        <small class="form-text text-muted" style="font-style: italic;">Sélectionnez plusieurs races en maintenant la touche CTRL ou Shift de votre clavier</small>
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.habitat, 'Habitat', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_errors(form.habitat, {'attr': {'class': 'invalid-feedback'}}) }}
+        {{ form_widget(form.habitat, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        <input type="submit" value="{{ button }}" class="btn btn-primary" />
+    </div>
+{{ form_end(form) }}

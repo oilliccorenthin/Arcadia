@@ -1,28 +1,62 @@
-{# home admin #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-{% if user %}
-    <p>Bonjour, {{ user.email }}</p>
-    <h1> Page d'administration </h1>
-    <p>Affichage des cruds</p>
-        {% if 'ROLE_ADMIN' in roles %}
-            <a href="{{ path('app_admin_user_index') }}">Gérer les utilisateurs</a><br>
-            <a href="{{ path('app_admin_opinion_index') }}">Gérer les avis</a><br>
-            <a href="{{ path('app_admin_service_index') }}">Gérer les services</a><br>
-            <a href="{{ path('app_admin_habitat_index') }}">Gérer les habitats</a><br>
+    <div class="container mt-4">
+        {% if user %}
+            <p><i>Bonjour, {{ user.email }}</i></p>
+            <h1>Page d'administration</h1>
+            {% if 'ROLE_ADMIN' in roles %}
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_user_index') }}" class="text-decoration-none">Gérer les utilisateurs &#x1F6B9;</a></h4>
+                            <p>Gérez les utilisateurs pouvant se connecter à l'application.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_opinion_index') }}" class="text-decoration-none">Gérer les avis &#x270F;</a></h4>
+                            <p>Gérez les différents avis laissés par les visiteurs du site.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_service_index') }}" class="text-decoration-none">Gérer les services &#x1F3ED;</a></h4>
+                            <p>Gérez les services proposés par le zoo.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_habitat_index') }}" class="text-decoration-none">Gérer les habitats &#x1F3E0;</a></h4>
+                            <p>Gérez les habitats disponibles dans le zoo.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_animal_index') }}" class="text-decoration-none">Gérer les animaux &#x1F42F;</a></h4>
+                            <p>Gérez la liste des animaux présent dans le zoo.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_race_index') }}" class="text-decoration-none">Gérer les races &#x1F436;</a></h4>
+                            <p>Gérez les possibles races d'animaux.</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if 'ROLE_EMPLOYEE' in roles %}
+                <div class="mb-4">
+                    <h2><a href="{{ path('app_admin_opinion_index') }}" class="text-decoration-none">Gérer les avis</a></h2>
+                    <p>Gérez les avis laissés par les utilisateurs.</p>
+                </div>
+                <p>Vous êtes employé</p>
+            {% endif %}
+            {% if 'ROLE_VETERINARY' in roles %}
+                <p>Vous êtes vétérinaire</p>
+            {% endif %}
+        {% else %}
+            <p>Bonjour, visiteur</p>
         {% endif %}
-        {% if 'ROLE_EMPLOYEE' in roles %}
-            <a href="{{ path('app_admin_opinion_index') }}">Gérer les avis</a>     
-            <p>Vous êtes employé</p>
-        {% endif %}
-        {% if 'ROLE_VETERINARY' in roles %}
-            <p>Vous êtes veterinaire</p>
-        {% endif %}
-{% else %}
-    <p>Bonjour, visiteur</p>
-{% endif %}
-
-
+    </div>
 {% endblock %}

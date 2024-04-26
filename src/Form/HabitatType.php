@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Habitat;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -22,6 +23,7 @@ class HabitatType extends AbstractType
             'allow_add' => true,
             'allow_delete' => true,
             'by_reference' => false,
+            'entry_options' => ['em' => $options['em']],
         ]);
     }
 
@@ -30,5 +32,7 @@ class HabitatType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Habitat::class,
         ]);
+        $resolver->setRequired('em');
+        $resolver->setAllowedTypes('em', EntityManagerInterface::class);
     }
 }

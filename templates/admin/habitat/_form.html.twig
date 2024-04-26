@@ -1,4 +1,4 @@
-{# _form.html.twig #}
+{# habitat _form.html.twig #}
 <form method="post" enctype="multipart/form-data" class="mt-4">
     {{ form_start(form) }}
         <div class="mb-3">
@@ -11,30 +11,36 @@
         <h3>Images</h3>
         <ul id="image-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
             {% for image in form.images %}
-                <li>
-                    {{ form_row(image.imageFile, {'label': 'Ajouter une image', 'attr': {'class': 'form-control'}}) }}
-                </li>
+                {{ form_row(image.imageFile, {'label': false, 'attr': {'style': 'display: none;'}, 'preload': false}) }}
             {% endfor %}
         </ul>
+
         <button type="button" id="add-image" class="btn btn-success mb-3">Ajouter une image</button><br>
 
         <button type="submit" class="btn btn-primary">{{ button }}</button>
     {{ form_end(form) }}
 </form>
+
+
+
 <script>
+    var imageCount = document.querySelectorAll('#image-fields-list > div').length;
+
     document.getElementById('add-image').addEventListener('click', function() {
         var list = document.getElementById('image-fields-list');
 
         var prototype = list.getAttribute('data-prototype');
 
-        // Replace '__name__' in the prototype's HTML to
-        // instead be a number based on the current collection's length
-        var newForm = prototype.replace(/__name__/g, list.children.length);
+        // Replace '__name__' in the prototype's HTML with the current image count
+        var newForm = prototype.replace(/__name__/g, imageCount);
 
         // Create a new <div> element with Bootstrap classes
         var newFormDiv = document.createElement('div');
         newFormDiv.className = 'mb-3'; // Add margin-bottom
         newFormDiv.innerHTML = newForm;
+
+        // Increment imageCount for the next image
+        imageCount++;
 
         // Display the form in the page in a <div>, before the "Add an image" button
         list.appendChild(newFormDiv);
