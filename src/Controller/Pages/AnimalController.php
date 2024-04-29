@@ -34,9 +34,17 @@ class AnimalController extends AbstractController
 	public function show(Animal $animal): Response
 	{
 
+		$user = $this->getUser();
+        if ($user) {
+            $roles = $user->getRoles();
+        } else {
+            $roles = [];
+        }
+
 		return $this->render('home/animal.html.twig', [
+			'roles' => $roles,
 			'animal' => $animal,
-			'current_menu' => 'animal',
+			'current_menu' => 'habitat',
 		]);
 	}
 

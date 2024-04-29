@@ -1,0 +1,48 @@
+{# Présentation animal #}
+{% extends 'base.html.twig' %}
+
+{% block title "Présentation " ~ animal.name %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>{{ animal.name }}</h1>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            
+            {% if animal.habitat %}
+                
+                {% set firstImage = animal.habitat.getFirstImage() %}
+                {% if firstImage %}
+                    <img src="/images/products/{{ firstImage.imagename }}" alt="First Image" class="img-fluid">
+                {% else %}
+                    <em>Aucune image disponible</em>
+                {% endif %}
+            {% else %}
+                <em>Aucun habitat associé à cet animal</em>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <p><b>Habitat : </b><em>{{ animal.habitat.name }}</em></p>
+            <p><b>État de santé :</b><em> {{ animal.state }}</em></p>
+            <p><b>Race :</b><em> {{ animal.getRaceLabels() }}</em></p>
+            {% if animal.veterinaryReport %}
+                <p><b>Rapport :</b><em> Il y a un rapport </em></p>
+                {# Ajouter les détails et la date du rapport #}
+            {% else %}
+                <p><b>Rapport :</b><em> Aucun rapport pour le moment</em></p>
+            {% endif %}
+            {% if 'ROLE_VETERINARY' in roles %}
+                {# Ajouter les liens d'edit des rapports #}
+                {% if animal.veterinaryReport %}
+                    <a class="btn btn-success" href="#">Gerer le rapport vétérinaire</a>
+                {% else %}
+                    <a class="btn btn-success" href="#">Ajouter un rapport vétérinaire</a>
+                {% endif %}
+            {% endif %}
+            
+                
+        </div>
+    </div>
+</div>
+{% endblock %}

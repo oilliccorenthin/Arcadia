@@ -76,10 +76,10 @@ class HabitatController extends AbstractController
 
 
     #[Route('/admin/habitat/new', name: 'app_admin_habitat_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ImagineInterface $imagine): Response
+    public function new(Request $request, ImagineInterface $imagine, EntityManagerInterface $entityManager): Response
     {
         $habitat = new Habitat();
-        $form = $this->createForm(HabitatType::class, $habitat);
+        $form = $this->createForm(HabitatType::class, $habitat, ['em' => $entityManager]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

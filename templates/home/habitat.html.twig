@@ -11,11 +11,11 @@
         <h1>Habitats</h1>
         <p><em>Affichage des différents habitats</em></p>
         <div class="container mt-4">
-            <div id="monCarrousel" class="carousel slide" data-ride="carousel">
+            <div id="Carousel" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
                     {% for imageData in imagesWithData %}
-                        <li data-target="#monCarrousel" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
+                        <li data-target="#Carousel" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
                     {% endfor %}
                 </ol>
 
@@ -32,11 +32,10 @@
                                 <p>Vous pouvez y trouver les animaux suivants :</p>
                                 <ul>
                                     {% for animal in imageData.animals %}
-                                        <li>{{ animal.name }}</li>
+                                        <li><a href="{{ path('app_animal', {'id': animal.id}) }}">{{ animal.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
-                            
                         </div>
                     {% endfor %}
 
@@ -45,10 +44,10 @@
             
     </div>
     <!-- Controls -->
-    <a class="carousel-control-prev mt-5" href="#monCarrousel" role="button" data-slide="prev" >
+    <a class="carousel-control-prev mt-5" href="#Carousel" role="button" data-slide="prev" >
         <img src="/images/left.svg" alt="Précédent">
     </a>
-    <a class="carousel-control-next mt-5" href="#monCarrousel" role="button" data-slide="next" style="z-index: 1;">
+    <a class="carousel-control-next mt-5" href="#Carousel" role="button" data-slide="next" style="z-index: 1;">
         <img src="/images/right.svg" alt="Suivant">
     </a>  
 </body>

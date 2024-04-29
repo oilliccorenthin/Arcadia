@@ -118,6 +118,16 @@ class Habitat
         return $this->images;
     }
 
+    public function getFirstImage(): ?Image
+    {
+        if ($this->images->isEmpty()) {
+            return null;
+        }
+
+        // Récupérer la première image de la liste
+        return $this->images->first();
+    }
+
     public function addImage(Image $image): static
     {
         if (!$this->images->contains($image)) {

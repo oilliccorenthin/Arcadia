@@ -103,6 +103,18 @@ class Animal
         return $this;
     }
 
+
+    public function getRaceLabels(): string
+    {
+        $labels = [];
+
+        foreach ($this->race as $race) {
+            $labels[] = $race->getLabel();
+        }
+
+        return implode(', ', $labels);
+    }
+
     public function getHabitat(): ?Habitat
     {
         return $this->habitat;
