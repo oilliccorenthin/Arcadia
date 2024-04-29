@@ -1,34 +1,63 @@
 {# show habitats #}
 {% extends 'base.html.twig' %}
 
-{% block styles %}
-    <style>
-        .carousel-item img {
-            max-width: 100%;
-            max-height: 400px;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
+{% block title %}Habitats{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 {% endblock %}
-
 {% block body %}
+<body>
     <div class="container mt-4">
-        <h1>Page des habitats</h1>
-        <p>Listing des habitats en panorama</p>
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                {% set isFirst = true %}    
-                {% for habitat in habitats %}
-                    {% for image in habitat.images %}
-                        <div class="carousel-item {% if isFirst %}active{% endif %}">
-                            <img class="d-block img-fluid" src="{{ asset('images/products/' ~ image.imageName) }}" alt="{{ image.imageName }}">
-                        </div>
-                        {% set isFirst = false %}
+        <h1>Habitats</h1>
+        <p><em>Affichage des différents habitats</em></p>
+        <div class="container mt-4">
+            <div id="monCarrousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    {% for imageData in imagesWithData %}
+                        <li data-target="#monCarrousel" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
                     {% endfor %}
-                {% endfor %}
-            </div>
-        </div>
+                </ol>
 
+                <!-- Slide container -->
+                <div class="carousel-inner">
+                    {% for imageData in imagesWithData %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="/images/products/{{ imageData.image.imagename }}" class="d-block mx-auto w-50" alt="Image {{ loop.index }}">
+                            <div class="text-center">
+                                <h3>{{ imageData.habitat.name }}</h3>
+                                <i><p>{{ imageData.habitat.description }}</p></i>
+                            </div>
+                            {% if imageData.animals is not empty %}
+                                <p>Vous pouvez y trouver les animaux suivants :</p>
+                                <ul>
+                                    {% for animal in imageData.animals %}
+                                        <li>{{ animal.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            
+                        </div>
+                    {% endfor %}
+
+                </div>
+        </div>
+            
     </div>
+    <!-- Controls -->
+    <a class="carousel-control-prev mt-5" href="#monCarrousel" role="button" data-slide="prev" >
+        <img src="/images/left.svg" alt="Précédent">
+    </a>
+    <a class="carousel-control-next mt-5" href="#monCarrousel" role="button" data-slide="next" style="z-index: 1;">
+        <img src="/images/right.svg" alt="Suivant">
+    </a>  
+</body>
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% endblock %}
+

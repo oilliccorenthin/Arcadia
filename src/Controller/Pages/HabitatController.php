@@ -2,16 +2,16 @@
 
 namespace App\Controller\Pages;
 
+use App\Entity\Animal;
 use App\Entity\Habitat;
-use App\Entity\Image;
 use App\Repository\HabitatRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Form\HabitatType;
+use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Imagine\Image\ImagineInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,25 +24,45 @@ class HabitatController extends AbstractController
     private $repository;
 
     /**
+     * @var ImageRepository
+     */
+    private $imageRepository;
+
+    /**
      * @var ManagerRegistry
      */
     private $doctrine;
 
-    public function __construct(HabitatRepository $repository, ManagerRegistry $doctrine)
-    {
-        $this->repository = $repository;
-        $this->doctrine = $doctrine;
-    }
-
+    public function __construct(HabitatRepository $repository, ImageRepository $imageRepository, ManagerRegistry $doctrine)
+{
+    $this->repository = $repository;
+    $this->imageRepository = $imageRepository; 
+    $this->doctrine = $doctrine;
+}
 
     #[Route('/habitat', name: 'app_habitat')]
     public function show(): Response
     {
+        $images = $this->imageRepository->findAll();
+
+        $imagesWithData = [];
+        foreach ($images as $image) {
+            $habitat = $image->getHabitat();
+            $animals = $this->doctrine->getRepository(Animal::class)->findBy(['habitat' => $habitat]);
+
+            $imagesWithData[] = [
+                'image' => $image,
+                'habitat' => $habitat,
+                'animals' => $animals,
+            ];
+        }
+
         return $this->render('home/habitat.html.twig', [
-            'habitats' => $this->repository->findAllWithImages(),
+            'imagesWithData' => $imagesWithData,
             'current_menu' => 'habitat'
         ]);
     }
+
 
     #[Route('/admin/habitat', name: 'app_admin_habitat_index', methods: ['GET'])]
     public function index(): Response
