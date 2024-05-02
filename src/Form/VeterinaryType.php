@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class VeterinaryType extends AbstractType
 {
@@ -16,6 +18,10 @@ class VeterinaryType extends AbstractType
         $builder
             ->add('typeFood', TextType::class, [
                 'label' => false, 
+                'constraints' => [
+                    new Length(['min' => 3, 'max' => 50]),
+                    new NotBlank(),
+                ],
             ])
             ->add('gramFood', IntegerType::class, [
                 'label' => false, 
