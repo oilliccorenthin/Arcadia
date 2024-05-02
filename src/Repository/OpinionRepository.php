@@ -24,7 +24,7 @@ class OpinionRepository extends ServiceEntityRepository
     public function findVisibleOpinion(): array
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.is_visible = :val')
+            ->andWhere('o.isVisible = :val')
             ->setParameter('val', 1)
             ->getQuery()
             ->getResult();

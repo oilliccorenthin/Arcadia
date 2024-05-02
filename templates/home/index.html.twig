@@ -1,15 +1,59 @@
-{# homaepage #}
+{# homepage #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<body>
+    <div class="container mt-5">
+        <div class="jumbotron text-center">
+            <h1 class="display-4">Bienvenue au Zoo Arcadia</h1>
+            <img src="/images/presentation.jpg" class="img-fluid rounded mx-auto d-block" alt="Image de présentation">
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <h2><a href="{{ path('app_habitat')}}">Nos Habitats</a></h2>
+                <ul class="list-group">
+                    {% for habitat in habitats %}
+                        <li class="list-group-item">{{ habitat.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <h2><a href="{{ path('app_service')}}">Nos Services</a></h2>
+                <ul class="list-group">
+                    {% for service in services %}
+                        <li class="list-group-item">{{ service.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+        </div>
+        <br>
+        <em>Et bien d'autres à découvrir sur place, ou sur le reste du site !</em>
+        
+        <div class="mt-4">
+            <h2><a href="{{ path('app_opinion')}}">Avis du Zoo</a></h2>
+            <div class="card-deck">
+                {% for review in reviews %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review.pseudo }}</h5>
+                            <p class="card-text">{{ review.commentaire }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <em>N'hésitez pas a nous envoyer le votre <a href="{{ path('app_opinion')}}">en cliquant ici</a> !</em>
+    </div>
+    
 
-<div class="container mt-4">
-    <h1>Home Page</h1>
-    <p>Bonjour ceci est une page d'accueil</p>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
 
-    <br>
-
-    <button type="button" class="btn btn-primary">Bouton de test</button>
-</div>
 {% endblock %}
 

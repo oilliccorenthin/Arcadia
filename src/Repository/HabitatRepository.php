@@ -33,6 +33,15 @@ class HabitatRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findLastThree(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.id', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Habitat[] Returns an array of Habitat objects
     //     */
