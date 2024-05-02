@@ -18,6 +18,21 @@
     </div>
 
     <div class="form-group">
+        <label><strong>Dernier repas</strong></label>
+        <p class="form-control-static">{{ animal.lastFedAt ? animal.lastFedAt|date('d/m/Y H:i:s') : 'Pas encore nourri' }}</p>
+    </div>
+    
+    <div class="form-group">
+        <label for="animal-detail"><strong>Type de repas conseillé</strong></label>
+        {{ form_row(form.typeFood, {'attr': {'class': 'form-control', 'id': 'animal-typefood'}}) }}
+    </div>
+
+    <div class="form-group">
+        <label for="animal-detail"><strong>Grammage du repas (g)</strong></label>
+        {{ form_row(form.gramFood, {'attr': {'class': 'form-control', 'id': 'animal-gramfood'}}) }}
+    </div>
+
+    <div class="form-group">
         <label for="animal-detail"><strong>Détail</strong></label>
         {{ form_row(form.detail, {'attr': {'class': 'form-control', 'id': 'animal-detail'}}) }}
     </div>

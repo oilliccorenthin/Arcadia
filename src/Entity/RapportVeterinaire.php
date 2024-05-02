@@ -22,6 +22,12 @@ class RapportVeterinaire
     #[ORM\Column(length: 50)]
     private ?string $detail = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $typeFood = null;
+
+    #[ORM\Column()]
+    private ?int $gramFood = null;
+
     #[ORM\OneToOne(mappedBy: 'veterinaryReport', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
@@ -54,6 +60,42 @@ class RapportVeterinaire
     {
         $this->detail = $detail;
 
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTypeFood(): ?string
+    {
+        return $this->typeFood;
+    }
+    
+    /**
+     * @param string|null $typeFood
+     * @return self
+     */
+    public function setTypeFood(?string $typeFood): self
+    {
+        $this->typeFood = $typeFood;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGramFood(): ?int
+    {
+        return $this->gramFood;
+    }
+
+    /**
+     * @param int|null $gramFood
+     * @return self
+     */
+    public function setGramFood(?int $gramFood): self
+    {
+        $this->gramFood = $gramFood;
         return $this;
     }
 

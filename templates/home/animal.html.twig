@@ -26,9 +26,12 @@
             <p><b>Habitat : </b><em>{{ animal.habitat.name }}</em></p>
             <p><b>État de santé :</b><em> {{ animal.state }}</em></p>
             <p><b>Race :</b><em> {{ animal.getRaceLabels() }}</em></p>
+            <p><b>Dernier repas :</b><em> {{ animal.lastFedAt ? animal.lastFedAt|date('d/m/Y H:i:s') : 'Pas encore nourri' }}</em></p>
             {% if animal.veterinaryReport %}
-                <p><b>Rapport :</b></p>
+                <p><b>Rapport vétérinaire :</b></p>
                 <ul>
+                    <li><em>Type de repas : {{ animal.veterinaryReport.typeFood }}</em></li>
+                    <li><em>Grammage : {{ animal.veterinaryReport.gramFood }} g</em></li>
                     <li><em>Detail : {{ animal.veterinaryReport.detail }}</em></li>
                     <li><em>Date : {{ animal.veterinaryReport.date ? animal.veterinaryReport.date|date('d F Y') : 'N/A' }}</em></li>
                 </ul>
