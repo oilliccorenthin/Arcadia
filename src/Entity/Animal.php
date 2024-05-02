@@ -23,7 +23,7 @@ class Animal
     #[ORM\Column(length: 50)]
     private ?string $state = null;
 
-    #[ORM\OneToOne(inversedBy: 'animal', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'animal', cascade: ['persist'])]
     private ?RapportVeterinaire $veterinaryReport = null;
 
     #[ORM\ManyToMany(targetEntity: Race::class, inversedBy: 'animals')]
@@ -32,6 +32,12 @@ class Animal
     #[ORM\ManyToOne(inversedBy: 'animals')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Habitat $habitat = null;
+
+    #[ORM\Column(type: 'integer')]
+    private $views = 0;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $lastFedAt;
 
     public function __construct()
     {
@@ -123,6 +129,37 @@ class Animal
     public function setHabitat(?Habitat $habitat): static
     {
         $this->habitat = $habitat;
+
+        return $this;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+    
+    public function addView(): self
+    {
+        $this->views++;
+
+        return $this;
+    }
+
+    public function getLastFedAt(): ?\DateTimeInterface
+    {
+        return $this->lastFedAt;
+    }
+
+    public function setLastFedAt(?\DateTimeInterface $lastFedAt): self
+    {
+        $this->lastFedAt = $lastFedAt;
 
         return $this;
     }

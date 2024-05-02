@@ -6,6 +6,7 @@ use App\Entity\Animal;
 use App\Repository\AnimalRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Form\AnimalType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,10 @@ class AnimalController extends AbstractController
 	#[Route('/animal/{id}', name: 'app_animal')]
 	public function show(Animal $animal): Response
 	{
-
+		$views = $animal->getViews();
+		$animal->setViews($views + 1);
+		$entityManager = $this->doctrine->getManager();
+		$entityManager->flush();
 		$user = $this->getUser();
         if ($user) {
             $roles = $user->getRoles();
@@ -48,6 +52,8 @@ class AnimalController extends AbstractController
 		]);
 	}
 
+	
+
 	#[Route('/admin/animal', name: 'app_admin_animal_index', methods: ['GET'])]
 	public function index(): Response
 	{
@@ -57,7 +63,23 @@ class AnimalController extends AbstractController
 		]); 
 	}
 
+	#[Route('/admin/views', name: 'app_admin_view_index', methods: ['GET'])]
+	public function views(): Response
+	{
+		return $this->render('admin/animal/views.html.twig', [
+			'animals' => $this->repository->findAll(),
+			'current_menu' => 'admin',
+		]); 
+	}
 
+	#[Route('/admin/feed', name: 'app_admin_feed_index', methods: ['GET'])]
+	public function feed(): Response
+	{
+		return $this->render('admin/animal/feed.html.twig', [
+			'animals' => $this->repository->findAll(),
+			'current_menu' => 'admin',
+		]); 
+	}
 
 	#[Route('/admin/animal/new', name: 'app_admin_animal_new', methods: ['GET', 'POST'])]
 	public function new(Request $request): Response
@@ -105,6 +127,30 @@ class AnimalController extends AbstractController
 			'form' => $form->createView(),
 			'current_menu' => 'admin',
 		]);
+	}
+
+
+
+	#[Route('/admin/animal/{id}/reset-views', name: 'app_admin_animal_reset_views', methods: ['POST'])]
+	public function resetViews(Animal $animal, EntityManagerInterface $entityManager): Response
+	{
+		$animal->setViews(0);
+		$entityManager->flush();
+
+		$this->addFlash('success', 'Le nombre de vues de '. $animal->getName() .' a été réinitialisé avec succès.');
+
+		return $this->redirectToRoute('app_admin_view_index');
+	}
+
+	#[Route('/admin/animal/{id}/update-last-fed', name: 'app_admin_animal_update_last_fed', methods: ['POST'])]
+	public function updateLastFedAt(Animal $animal, EntityManagerInterface $entityManager): Response
+	{
+		$animal->setLastFedAt(new \DateTime());
+		$entityManager->flush();
+
+		$this->addFlash('success', 'L\'heure du dernier repas de '. $animal->getName() .' a été mise à jour avec succès.');
+
+		return $this->redirectToRoute('app_admin_feed_index');
 	}
 
 	#[Route('/admin/animal/{id}', name: 'app_admin_animal_delete')]

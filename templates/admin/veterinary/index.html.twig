@@ -1,0 +1,44 @@
+{# index animal #}
+{% extends 'base.html.twig' %}
+{% block title 'Gérer les différents animaux' %}
+{% block body %}
+<div class="container mt-4">
+    <h1>Gérer les rapports</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Habitat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for animal in animals %}
+                <tr>
+                    <td>{{ animal.name }}</td>
+                    <td>{{ animal.habitat.name }}</td>
+                    {% if animal.veterinaryReport %}
+                        <td>
+                            <a class="btn btn-info" href="{{ path('app_admin_report_edit', {'reportId': animal.veterinaryReport.id}) }}">Modifier le rapport vétérinaire</a>
+                            <form method="post" action="{{ path('app_admin_report_delete', {'reportId': animal.veterinaryReport.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ animal.veterinaryReport.id) }}">
+                                <button class="btn btn-danger">Retirer</button>
+                            </form>
+                        </td>
+                    {% else %}
+                        <td>
+                            <a class="btn btn-success" href="{{ path('app_admin_report_new', {'id': animal.id} )}}">Ajouter un rapport vétérinaire</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

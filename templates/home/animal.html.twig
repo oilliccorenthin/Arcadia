@@ -27,17 +27,20 @@
             <p><b>État de santé :</b><em> {{ animal.state }}</em></p>
             <p><b>Race :</b><em> {{ animal.getRaceLabels() }}</em></p>
             {% if animal.veterinaryReport %}
-                <p><b>Rapport :</b><em> Il y a un rapport </em></p>
-                {# Ajouter les détails et la date du rapport #}
+                <p><b>Rapport :</b></p>
+                <ul>
+                    <li><em>Detail : {{ animal.veterinaryReport.detail }}</em></li>
+                    <li><em>Date : {{ animal.veterinaryReport.date ? animal.veterinaryReport.date|date('d F Y') : 'N/A' }}</em></li>
+                </ul>
             {% else %}
                 <p><b>Rapport :</b><em> Aucun rapport pour le moment</em></p>
             {% endif %}
             {% if 'ROLE_VETERINARY' in roles %}
                 {# Ajouter les liens d'edit des rapports #}
                 {% if animal.veterinaryReport %}
-                    <a class="btn btn-success" href="#">Gerer le rapport vétérinaire</a>
+                    <a class="btn btn-success" href="{{ path('app_admin_report_edit', {'reportId': animal.veterinaryReport.id}) }}">Gerer le rapport vétérinaire</a>
                 {% else %}
-                    <a class="btn btn-success" href="#">Ajouter un rapport vétérinaire</a>
+                    <a class="btn btn-success" href="{{ path('app_admin_report_new', {'id': animal.id} )}}">Ajouter un rapport vétérinaire</a>
                 {% endif %}
             {% endif %}
             

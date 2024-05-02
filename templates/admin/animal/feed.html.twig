@@ -1,0 +1,47 @@
+{# index animal #}
+{% extends 'base.html.twig' %}
+{% block title 'Repas des animaux' %}
+{% block body %}
+<div class="container mt-4">
+    <h1>Gestion des repas des animaux</h1>
+    <br>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th class="text-center">Habitat</th>
+                <th class="text-center">Dernier repas</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for animal in animals %}
+                <tr>
+                    <td>{{ animal.name }}</td>
+                    <td class="text-center">{{ animal.habitat.name }}</td>
+                    <td class="text-center">{{ animal.lastFedAt ? animal.lastFedAt|date('d/m/Y H:i:s') : 'Pas encore nourri' }}</td>
+                    <td class="text-center">
+                        <form method="post" action="{{ path('app_admin_animal_update_last_fed', {'id': animal.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr de vouloir mettre à jour l\'heure du dernier repas de cet animal ?')">
+                            <input type="hidden" name="_token" value="{{ csrf_token('update_last_fed' ~ animal.id) }}">
+                            <button type="submit" class="btn btn-info">Mettre à jour dernier repas</button>
+                        </form>
+                        {% if animal.lastFedAt %}
+                            {% set today = 'now'|date('Y-m-d') %}
+                            {% set lastFedDate = animal.lastFedAt|date('Y-m-d') %}
+                            {% if lastFedDate < today %}
+                                <span>&#x26A0;</span>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Imagine\Image\ImagineInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,6 +45,12 @@ class HabitatController extends AbstractController
     #[Route('/habitat', name: 'app_habitat')]
     public function show(): Response
     {
+        $user = $this->getUser();
+        if ($user) {
+            $roles = $user->getRoles();
+        } else {
+            $roles = [];
+        }
         $images = $this->imageRepository->findAll();
 
         $imagesWithData = [];
@@ -59,6 +67,7 @@ class HabitatController extends AbstractController
 
         return $this->render('home/habitat.html.twig', [
             'imagesWithData' => $imagesWithData,
+            'roles' => $roles,
             'current_menu' => 'habitat'
         ]);
     }
@@ -113,6 +122,36 @@ class HabitatController extends AbstractController
         }
 
         return $this->render('admin/habitat/edit.html.twig', [
+            'habitat' => $habitat,
+            'form' => $form->createView(),
+            'current_menu' => 'admin',
+        ]);
+    }
+
+    #[Route('/admin/habitat/{id}/comment', name: 'app_admin_habitat_comment', methods: ['GET', 'POST'])]
+    public function comment(Habitat $habitat, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createFormBuilder()
+        ->add('commentaire_habitat', TextType::class, [
+            'label' => false,
+        ])
+        ->getForm();
+        $comment = $habitat->getCommentaireHabitat();
+        if ($comment !== null) {
+            $form->get('commentaire_habitat')->setData($comment);
+        }
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire = $form->get('commentaire_habitat')->getData();
+            $habitat->setCommentaireHabitat($commentaire);
+            $entityManager->flush();
+            $this->addFlash('success', 'Modifié avec succès !');
+
+            return $this->redirectToRoute('app_habitat');
+        }
+
+        return $this->render('admin/habitat/_comment.html.twig', [
             'habitat' => $habitat,
             'form' => $form->createView(),
             'current_menu' => 'admin',

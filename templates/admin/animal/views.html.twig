@@ -1,0 +1,40 @@
+{# index animal #}
+{% extends 'base.html.twig' %}
+{% block title 'Statistiques vues/animaux' %}
+{% block body %}
+<div class="container mt-4">
+    <h1>Listing des vues sur chaque animaux</h1>
+    <br>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th class="text-center">Habitat</th>
+                <th class="text-center">Nombre de vues</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for animal in animals %}
+                <tr>
+                    <td>{{ animal.name }}</td>
+                    <td class="text-center">{{ animal.habitat.name }}</td>
+                    <td class="text-center">{{ animal.views }}</td>
+                    <td class="text-center">
+                        <form method="post" action="{{ path('app_admin_animal_reset_views', {'id': animal.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous vraiment sûr de vouloir réinitialiser le nombre de vues de cet animal ?')">
+                            <input type="hidden" name="_token" value="{{ csrf_token('reset_views' ~ animal.id) }}">
+                            <button type="submit" class="btn btn-warning">Réinitialiser</button>
+                        </form>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

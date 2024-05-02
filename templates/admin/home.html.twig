@@ -4,59 +4,95 @@
     <div class="container mt-4">
         {% if user %}
             <p><i>Bonjour, {{ user.email }}</i></p>
-            <h1>Page d'administration</h1>
             {% if 'ROLE_ADMIN' in roles %}
+                <h1>Page d'administrateur</h1>
                 <div class="row">
                     <div class="col-md-4 mb-4">
                         <div class="border p-3">
-                            <h4><a href="{{ path('app_admin_user_index') }}" class="text-decoration-none">Gérer les utilisateurs &#x1F6B9;</a></h4>
+                            <h4><a href="{{ path('app_admin_user_index') }}" class="text-decoration-none">Utilisateurs &#x1F6B9;</a></h4>
                             <p>Gérez les utilisateurs pouvant se connecter à l'application.</p>
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
                         <div class="border p-3">
-                            <h4><a href="{{ path('app_admin_opinion_index') }}" class="text-decoration-none">Gérer les avis &#x270F;</a></h4>
+                            <h4><a href="{{ path('app_admin_opinion_index') }}" class="text-decoration-none">Avis &#x270F;</a></h4>
                             <p>Gérez les différents avis laissés par les visiteurs du site.</p>
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
                         <div class="border p-3">
-                            <h4><a href="{{ path('app_admin_service_index') }}" class="text-decoration-none">Gérer les services &#x1F3ED;</a></h4>
+                            <h4><a href="{{ path('app_admin_service_index') }}" class="text-decoration-none">Services &#x1F3ED;</a></h4>
                             <p>Gérez les services proposés par le zoo.</p>
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
                         <div class="border p-3">
-                            <h4><a href="{{ path('app_admin_habitat_index') }}" class="text-decoration-none">Gérer les habitats &#x1F3E0;</a></h4>
+                            <h4><a href="{{ path('app_admin_habitat_index') }}" class="text-decoration-none">Habitats &#x1F3E0;</a></h4>
                             <p>Gérez les habitats disponibles dans le zoo.</p>
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
                         <div class="border p-3">
-                            <h4><a href="{{ path('app_admin_animal_index') }}" class="text-decoration-none">Gérer les animaux &#x1F42F;</a></h4>
+                            <h4><a href="{{ path('app_admin_animal_index') }}" class="text-decoration-none">Animaux &#x1F42F;</a></h4>
                             <p>Gérez la liste des animaux présent dans le zoo.</p>
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
                         <div class="border p-3">
-                            <h4><a href="{{ path('app_admin_race_index') }}" class="text-decoration-none">Gérer les races &#x1F436;</a></h4>
+                            <h4><a href="{{ path('app_admin_race_index') }}" class="text-decoration-none">Races &#x1F436;</a></h4>
                             <p>Gérez les possibles races d'animaux.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_report_index') }}" class="text-decoration-none">Rapports vétérinaire &#x1F3E5;</a></h4>
+                            <p>Gérez la liste des rapports effecutué par le vétérinaire.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_view_index') }}" class="text-decoration-none">Vues &#x1F440;</a></h4>
+                            <p>Gérez et réinitialisez les vues de chaques animaux.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_feed_index') }}" class="text-decoration-none">Nourriture &#x1F356;</a></h4>
+                            <p>Gérez la nourriture des animaux.</p>
                         </div>
                     </div>
                 </div>
             {% endif %}
             {% if 'ROLE_EMPLOYEE' in roles %}
-                <div class="mb-4">
-                    <h2><a href="{{ path('app_admin_opinion_index') }}" class="text-decoration-none">Gérer les avis</a></h2>
-                    <p>Gérez les avis laissés par les utilisateurs.</p>
+                <h1>Page de gestion de l'employé</h1>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_opinion_index') }}" class="text-decoration-none">Avis &#x270F;</a></h4>
+                            <p>Gérez les différents avis laissés par les visiteurs du site.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_feed_index') }}" class="text-decoration-none">Nourriture &#x1F356;</a></h4>
+                            <p>Gérez la nourriture des animaux.</p>
+                        </div>
+                    </div>
                 </div>
-                <p>Vous êtes employé</p>
             {% endif %}
             {% if 'ROLE_VETERINARY' in roles %}
-                <p>Vous êtes vétérinaire</p>
+                <h1>Page de gestion du vétérinaire</h1>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="border p-3">
+                            <h4><a href="{{ path('app_admin_report_index') }}" class="text-decoration-none">Rapports vétérinaire &#x1F3E5;</a></h4>
+                            <p>Gérez la liste des rapports effecutué par le vétérinaire.</p>
+                        </div>
+                    </div>
+                </div>
             {% endif %}
         {% else %}
-            <p>Bonjour, visiteur</p>
+            <p>Bonjour, visiteur, vous n'avez pas de roles</p>
         {% endif %}
     </div>
 {% endblock %}

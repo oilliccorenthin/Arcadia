@@ -1,0 +1,11 @@
+{# new rapport #}
+{% extends 'base.html.twig'%}
+
+{% block title 'Editer un rapport'%}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Editer un rapport</h1>
+    {{ include('/admin/veterinary/_form.html.twig', {form: form, button:'Editer'})}}
+</div>
+{% endblock %}

@@ -16,6 +16,10 @@ body {
     color: #fff;
 }
 
+.navbar-brand:hover {
+    color: #C9FBAC;
+}
+
 .navbar-nav .nav-link {
     color: #fff;
     margin-right: 15px;
@@ -31,6 +35,9 @@ body {
     color: rgb(16, 74, 26) !important; 
 }
 
+.navbar-brand.active {
+    color: rgb(16, 74, 26) !important; 
+}
 
 .btn-success {
     background-color: #A7D49B;

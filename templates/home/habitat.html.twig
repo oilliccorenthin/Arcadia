@@ -28,14 +28,29 @@
                                 <h3>{{ imageData.habitat.name }}</h3>
                                 <i><p>{{ imageData.habitat.description }}</p></i>
                             </div>
-                            {% if imageData.animals is not empty %}
-                                <p>Vous pouvez y trouver les animaux suivants :</p>
-                                <ul>
-                                    {% for animal in imageData.animals %}
-                                        <li><a href="{{ path('app_animal', {'id': animal.id}) }}">{{ animal.name }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {% if imageData.animals is not empty %}
+                                        <p>Vous pouvez y trouver les animaux suivants :</p>
+                                        <ul>
+                                            {% for animal in imageData.animals %}
+                                                <li><a href="{{ path('app_animal', {'id': animal.id}) }}">{{ animal.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6" style="text-align: right;">
+                                    {% if 'ROLE_VETERINARY' in roles %}
+                                        {% if imageData.habitat.commentairehabitat %}
+                                            <p>Dernier commentaire du vétérinaire :</p> 
+                                            <em>{{ imageData.habitat.commentairehabitat }}</em><br>
+                                            <a class="btn btn-success" href="{{ path('app_admin_habitat_comment', {'id': imageData.habitat.id}) }}">Modifier le commentaire</a>
+                                        {% else %}
+                                            <a class="btn btn-success" href="{{ path('app_admin_habitat_comment', {'id': imageData.habitat.id} )}}">Ajouter un commentaire</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     {% endfor %}
 

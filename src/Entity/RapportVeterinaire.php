@@ -25,7 +25,7 @@ class RapportVeterinaire
     #[ORM\OneToOne(mappedBy: 'veterinaryReport', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
-    #[ORM\OneToOne(mappedBy: 'veterinaryReport', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'veterinaryReport', cascade: ['persist'])]
     private ?Animal $animal = null;
 
     public function getId(): ?int
