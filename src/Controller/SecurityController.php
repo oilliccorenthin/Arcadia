@@ -38,16 +38,6 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_admin');
         }
 
-        $roles = $this->roleRepository->findAll();
-        if (empty($roles)) {
-            $this->createRoles();
-        }
-
-        $users = $this->userRepository->findAll();
-        if (empty($users)) {
-            $this->createDefaultAdmin($this->userRepository);
-            $this->addFlash('warning', 'Un administrateur par defaut a été créé. Vous pouvez vous connecter avec les identifiants de la ddocumentation. Pensez à créer un compte administrateur et supprimer celui-ci.');
-        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

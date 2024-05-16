@@ -16,42 +16,42 @@ class RoleToLabelTransformer implements DataTransformerInterface
     }
 
     public function transform($roles)
-{
-    if (null === $roles) {
-        return [];
-    }
-
-    return $roles;
-}
-
-public function reverseTransform($roleLabels)
-{
-    if (!$roleLabels) {
-        return new ArrayCollection();
-    }
-
-    $roles = [];
-
-    foreach ($roleLabels as $roleLabel) {
-        
-        
-        $role = $this->entityManager
-            ->getRepository(Role::class)
-            ->findOneBy(['label' => $roleLabel->getLabel()]);
-
-        if (null === $role) {
-            throw new TransformationFailedException(sprintf(
-                'A role with label "%s" does not exist!',
-                $roleLabel
-            ));
+    {
+        if (null === $roles) {
+            return [];
         }
 
-        $roles[] = $role;
-
+        return $roles;
     }
 
-    return new ArrayCollection($roles);
-}
+    public function reverseTransform($roleLabels)
+    {
+        if (!$roleLabels) {
+            return new ArrayCollection();
+        }
+
+        $roles = [];
+
+        foreach ($roleLabels as $roleLabel) {
+            
+            
+            $role = $this->entityManager
+                ->getRepository(Role::class)
+                ->findOneBy(['label' => $roleLabel->getLabel()]);
+
+            if (null === $role) {
+                throw new TransformationFailedException(sprintf(
+                    'A role with label "%s" does not exist!',
+                    $roleLabel
+                ));
+            }
+
+            $roles[] = $role;
+
+        }
+
+        return new ArrayCollection($roles);
+    }
 }
 
 ?>

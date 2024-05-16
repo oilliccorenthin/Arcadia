@@ -11,26 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @var HabitatRepository
-     */
-    private $habitatRepository;
 
-    /**
-     * @var OpinionRepository
-     */
-    private $opinionRepository;
-
-    /**
-     * @var ServiceRepository
-     */
-    private $serviceRepository;
-
-    public function __construct(HabitatRepository $habitatRepository, OpinionRepository $opinionRepository, ServiceRepository $serviceRepository)
+    public function __construct(private HabitatRepository $habitatRepository, private OpinionRepository $opinionRepository, private ServiceRepository $serviceRepository)
     {
-        $this->habitatRepository = $habitatRepository;
-        $this->opinionRepository = $opinionRepository;
-        $this->serviceRepository = $serviceRepository;
+
     }
 
     #[Route('/', name: 'app_home')]

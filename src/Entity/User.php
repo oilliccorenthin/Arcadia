@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: 'users')]
 #[Vich\Uploadable]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -113,7 +114,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roleObjects = $roles;
 
-        // Convert the PersistentCollection to an array
         $this->roles = $roles->toArray();
 
         return $this;

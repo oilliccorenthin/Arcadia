@@ -1,27 +1,34 @@
-{# formulaire user #}
 {{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+
 <div class="form-group row">
     <label class="col-md-4 col-form-label text-md-right">Email</label>
     <div class="col-md-8">
         {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.email) }}
     </div>
 </div>
+
 <div class="form-group row">
     <label class="col-md-4 col-form-label text-md-right">Mot de passe</label>
     <div class="col-md-8">
         {{ form_row(form.password, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.password) }}
     </div>
 </div>
+
 <div class="form-group row">
     <label class="col-md-4 col-form-label text-md-right">Rôle</label>
     <div class="col-md-8">
         {{ form_row(form.roleObjects, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.roleObjects) }}
     </div>
 </div>
+
 <div class="form-group row mb-0">
     <div class="col-md-8 offset-md-4">
         {{ form_rest(form) }}
         <button type="submit" class="btn btn-primary">{{ button|default('Enregistrer') }}</button>
     </div>
 </div>
+
 {{ form_end(form) }}

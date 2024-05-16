@@ -1,11 +1,53 @@
-version: '3'
-
+version: "3.8"
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+
+  php-apache:
+    container_name: www
     ports:
-      - "8000:8000"
+      - "80:80"
+    build: ../docker/php
     volumes:
-      - .:/var/www/html
+      - ./:/var/www/html
+      - ../docker/php/vhosts.conf:/etc/apache2/sites-enabled/000-default.conf
+    networks:
+      - dev
+
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=arcadia
+      - POSTGRES_PASSWORD=password1234
+      - POSTGRES_DB=arcadia
+    networks:
+      - dev
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - dev
+
+  maildev:
+    image: maildev/maildev
+    container_name: maildev_docker_symfony
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    ports:
+      - "8082:80"
+    restart: always
+    networks:
+      - dev
+
+networks:
+  dev:
+
+volumes:
+  postgres-data:
