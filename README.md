@@ -11,15 +11,16 @@ Avant de commencer, assurez-vous d'avoir Docker et Docker Compose installés sur
 1. **Cloner le Projet**
    ```bash
    git clone https://github.com/oilliccorenthin/Arcadia.git
-   cd Arcadia_website
+   cd Arcadia
 
-2. **Monter les images docker**
+2. **Monter les images docker et lancer l'environnement**
    ```bash
    docker-compose pull
-
-3. **Lancer l'environnement**
-   ```bash
    docker-compose up
+
+3. **Entrez dans le container disposant de l'app**
+   ```bash
+   docker-compose exec -it www bash
 
 4. **Entrez dans le container disposant de l'app**
     ```bash
@@ -37,8 +38,6 @@ Avant de commencer, assurez-vous d'avoir Docker et Docker Compose installés sur
 6. **Charger les fixtures**
     ```bash
    php bin/console doctrine:fixtures:load
-
-
 
 ## Créateur
 - OILLIC Corenthin (https://github.com/oilliccorenthin)
