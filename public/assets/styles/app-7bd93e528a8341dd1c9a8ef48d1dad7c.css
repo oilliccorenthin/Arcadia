@@ -1,0 +1,115 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: linear-gradient(45deg, #fdfaea, #d9f3cc) center center no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+a {
+    color: #8B4513; 
+    text-decoration: none; 
+}
+
+a:hover {
+    color: #205818; 
+    text-decoration: none;
+}
+
+
+.navbar-container {
+    background-color: #205818;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    padding: 0 20px;
+}
+
+.navbar-brand {
+    color: #fff;
+}
+
+.navbar-brand:hover {
+    color: #ADFF2F;
+}
+
+.navbar-nav .nav-link {
+    color: #fff;
+    margin-right: 15px;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .navbar-brand:hover {
+    color: #ADFF2F;
+}
+
+
+.nav-link.active {
+    color: #ADFF2F !important; 
+}
+
+.navbar-brand.active {
+    color: #ADFF2F !important; 
+}
+
+.zoo-footer {
+    color: black;
+    padding: 20px 0;
+  }
+  
+  .zoo-footer .container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .footer-content h3 {
+    margin-bottom: 10px;
+  }
+  
+  .footer-content p {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-links li {
+    display: inline;
+    margin-right: 20px;
+  }
+  
+  .footer-links a {
+    color: black;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .footer-social-media {
+    text-align: right;
+  }
+  
+  .footer-social-media a {
+    color: black;
+    margin-left: 10px;
+  }
+  
+  .footer-social-media i {
+    font-size: 24px;
+  }
+
+.zoo-footer {
+    border-top: px solid #aaa; 
+    color: black;
+    padding: 20px 0;
+  }
+
+
+/* Import Bootstrap CSS */
+@import "~bootstrap/scss/bootstrap";
