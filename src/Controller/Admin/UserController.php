@@ -77,14 +77,16 @@ class UserController extends AbstractController
             $this->addFlash('success', 'Créé avec succès !');
 
             // Sending email to the new User
-            $mail = (new TemplatedEmail())
-                ->to($user->getEmail())
-                ->from('gestion@zoo.arcadia.fr')
-                ->subject('Création de compte')
-                ->htmlTemplate('emails/new_user.html.twig')
-                ->context(['user' => $user]);
-            $mailer->send($mail);
-            $this->addFlash('success', 'Votre message a bien été envoyé');
+            if ($this->getParameter('kernel.environment') !== 'prod') {
+                $mail = (new TemplatedEmail())
+                    ->to($user->getEmail())
+                    ->from('gestion@zoo.arcadia.fr')
+                    ->subject('Création de compte')
+                    ->htmlTemplate('emails/new_user.html.twig')
+                    ->context(['user' => $user]);
+                $mailer->send($mail);
+                $this->addFlash('success', 'Votre message a bien été envoyé');
+            }
 
             return $this->redirectToRoute('app_admin_user_index');
         }
