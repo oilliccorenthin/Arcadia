@@ -1,4 +1,5 @@
-<?php namespace App\Form\DataTransformer;
+<?php 
+namespace App\Form;
 
 use App\Entity\Role;
 use Doctrine\Common\Collections\ArrayCollection;
