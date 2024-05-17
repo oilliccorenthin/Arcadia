@@ -32,7 +32,6 @@ Avant de commencer, assurez-vous d'avoir Docker et Docker Compose installés sur
 
 6. **Générer les migrations et migrer la base de données**
     ```bash
-   php bin/console make:migration
    php bin/console doctrine:migration:migrate
 
 6. **Charger les fixtures**
