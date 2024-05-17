@@ -27,20 +27,15 @@ class AppFixtures extends Fixture
 
     private function createRoles(ObjectManager $manager): void
     {
-        $roleAdmin = new Role();
-        $roleAdmin->setLabel('ROLE_ADMIN');
-        $manager->persist($roleAdmin);
-
-        $roleEmployee = new Role();
-        $roleEmployee->setLabel('ROLE_EMPLOYEE');
-        $manager->persist($roleEmployee);
-
-        $roleVeterinary = new Role();
-        $roleVeterinary->setLabel('ROLE_VETERINARY');
-        $manager->persist($roleVeterinary);
+        $roles = ['ROLE_ADMIN', 'ROLE_EMPLOYEE', 'ROLE_VETERINARY'];
+        
+        foreach ($roles as $roleLabel) {
+            $role = new Role();
+            $role->setLabel($roleLabel);
+            $manager->persist($role);
+        }
 
         $manager->flush();
-        return;
     }
 
     private function createAdmin(ObjectManager $manager): void
