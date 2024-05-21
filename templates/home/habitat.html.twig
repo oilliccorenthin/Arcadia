@@ -40,10 +40,14 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-md-6" style="text-align: right;">
+                                    <p>Dernier commentaire du vétérinaire :</p>
+                                    {% if imageData.habitat.commentairehabitat %} 
+                                        <em>{{ imageData.habitat.commentairehabitat }}</em><br>
+                                    {% else %}
+                                        <em>Aucun commentaire</em><br>
+                                    {% endif %}
                                     {% if 'ROLE_VETERINARY' in roles %}
                                         {% if imageData.habitat.commentairehabitat %}
-                                            <p>Dernier commentaire du vétérinaire :</p> 
-                                            <em>{{ imageData.habitat.commentairehabitat }}</em><br>
                                             <a class="btn btn-success" href="{{ path('app_admin_habitat_comment', {'id': imageData.habitat.id}) }}">Modifier le commentaire</a>
                                         {% else %}
                                             <a class="btn btn-success" href="{{ path('app_admin_habitat_comment', {'id': imageData.habitat.id} )}}">Ajouter un commentaire</a>
